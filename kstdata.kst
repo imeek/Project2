@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kst version="2.0">
+    <data>
+        <source reader="ASCII file" file="D:/Users/Ian/Documents/NetBeansProjects/Project2/output.dat" fileRelative="output.dat">
+            <properties delimiters="#" columntype="0" headerstart="0" fields="0" readfields="false" usedot="true" columnwidthisconst="false" readunits="false" units="0"/>
+        </source>
+        <source reader="ASCII file" file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat">
+            <properties delimiters="#" columntype="0" headerstart="0" fields="0" readfields="false" usedot="true" columnwidthisconst="false" readunits="false" units="0"/>
+        </source>
+    </data>
+    <variables>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/output.dat" fileRelative="output.dat" field="INDEX" start="0" count="-1" skip="-1" doAve="false" initialVNum="1" initialXNum="1"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/output.dat" fileRelative="output.dat" field="Column 1" start="0" count="-1" skip="-1" doAve="false" initialVNum="2" initialXNum="13"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="Column 1" start="0" count="-1" skip="-1" doAve="false" initialVNum="5" initialXNum="47"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="Column 1" start="0" count="-1" skip="-1" doAve="false" initialVNum="6" initialXNum="59"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="Column 1" start="0" count="-1" skip="-1" doAve="false" initialVNum="7" initialXNum="71"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="Column 2" start="0" count="-1" skip="-1" doAve="false" initialVNum="8" initialXNum="83"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="INDEX" start="0" count="-1" skip="-1" doAve="false" initialVNum="11" initialXNum="117"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="INDEX" start="0" count="-1" skip="-1" doAve="false" initialVNum="12" initialXNum="129"/>
+        <datavector file="D:/Users/Ian/Documents/NetBeansProjects/Project2/fftdata.dat" fileRelative="fftdata.dat" field="Column 2" start="0" count="-1" skip="-1" doAve="false" initialVNum="13" initialXNum="141"/>
+        <string value="2012-10-30 22:45:41" initialTNum="1"/>
+        <string value="2012-10-16 18:58:10" initialTNum="2"/>
+        <string value="output.dat" initialTNum="3"/>
+        <string value="E:/Project1-v2012b/Project1-v2012b" initialTNum="4"/>
+        <string value="2012-11-01 18:57:26" initialTNum="5"/>
+        <string value="2012-11-01 22:37:06" initialTNum="6"/>
+        <string value="output.dat" initialTNum="7"/>
+        <string value="D:/Users/Ian/Documents/NetBeansProjects/Project2" initialTNum="8"/>
+        <string value="2012-11-01 22:40:42" initialTNum="9"/>
+        <string value="2012-11-01 22:40:42" initialTNum="10"/>
+        <string value="fftdata.dat" initialTNum="11"/>
+        <string value="D:/Users/Ian/Documents/NetBeansProjects/Project2" initialTNum="12"/>
+    </variables>
+    <objects>
+        <powerspectrum vector="Column 1 (V2)" samplerate="256" gaussiansigma="1" average="true" fftlength="11" removemean="true" apodize="true" apodizefunction="0" interpolateholes="true" vectorunits="V" rateunits="Hz" outputtype="2" initialVNum="3" initialXNum="25" initialPSDNum="1"/>
+        <powerspectrum vector="Column 1:f (V3)" samplerate="1024" gaussiansigma="1" average="true" fftlength="10" removemean="true" apodize="true" apodizefunction="0" interpolateholes="false" vectorunits="V" rateunits="Hz" outputtype="2" initialVNum="9" initialXNum="95" initialPSDNum="2"/>
+    </objects>
+    <relations>
+        <curve xvector="INDEX (V1)" yvector="Column 1 (V2)" color="#008000" headcolor="#000000" barfillcolor="#000000" haslines="true" linewidth="1" linestyle="0" haspoints="false" pointtype="0" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="-1" initialCNum="1"/>
+        <curve xvector="Column 1:f (V3)" yvector="Column 1:psd (V4)" color="#000000" headcolor="#ff00ff" barfillcolor="#4682b4" haslines="true" linewidth="1" linestyle="0" haspoints="false" pointtype="0" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="-1" initialCNum="2"/>
+        <curve xvector="INDEX (V1)" yvector="Column 1 (V5)" color="#105010" headcolor="#000000" barfillcolor="#000000" haslines="true" linewidth="1" linestyle="0" haspoints="false" pointtype="0" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="3"/>
+        <curve xvector="Column 1 (V6)" yvector="Column 1 (V7)" color="#350a0a" headcolor="#000000" barfillcolor="#000000" haslines="true" linewidth="1" linestyle="0" haspoints="true" pointtype="0" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="-16777216" initialCNum="4"/>
+        <curve xvector="Column 1 (V6)" yvector="Column 2 (V8)" color="#0a350a" headcolor="#000000" barfillcolor="#000000" haslines="true" linewidth="1" linestyle="0" haspoints="true" pointtype="1" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="5"/>
+        <curve xvector="Column 1:f:f (V9)" yvector="Column 1:f:psd (V10)" color="#ff00ff" headcolor="#4682b4" barfillcolor="#501010" haslines="true" linewidth="1" linestyle="0" haspoints="false" pointtype="0" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="-1" initialCNum="6"/>
+        <curve xvector="INDEX (V11)" yvector="INDEX (V12)" color="#105010" headcolor="#000000" barfillcolor="#000000" haslines="true" linewidth="1" linestyle="0" haspoints="true" pointtype="0" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="7"/>
+        <curve xvector="INDEX (V11)" yvector="Column 2 (V13)" color="#aa0000" headcolor="#000000" barfillcolor="#000000" haslines="true" linewidth="1" linestyle="0" haspoints="true" pointtype="1" pointdensity="0" hasbars="false" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="8"/>
+    </relations>
+    <graphics>
+        <view name="View &amp;1" width="1913" height="1047" color="#ffffff" style="1">
+            <plot tiedxzoom="false" tiedyzoom="false" leftlabelvisible="true" bottomlabelvisible="true" rightlabelvisible="true" toplabelvisible="true" globalfont="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" globalfontscale="10.5" globalfontcolor="#000000" showlegend="true" hidebottomaxislabel="false" hidetopaxislabel="false" hideleftaxislabel="false" hiderightaxislabel="false" initialPlotNum="6" name="Plot">
+                <position x="956.4258" y="913.856" z="500"/>
+                <rect x="-953.4591" y="-130.1092" width="1906.9182" height="260.2184"/>
+                <relativesize width="0.9963" height="0.2483" centerx="0.4997" centery="0.872" posx="0.00155000000000003" posy="0.74785" leftx="0.00155000000000003" lefty="0.99615" rightx="0.99785" righty="0.99615" fixaspect="false" lockpostodata="false"/>
+                <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                <pen style="1" width="1" miterlimit="2" cap="16" joinStyle="64">
+                    <brush color="#000000" style="1"/>
+                </pen>
+                <brush color="#ffffff" style="1"/>
+                <legend auto="true" title="" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="6.31918358845309" color="#000000" verticaldisplay="false" name="Legend">
+                    <position x="-794.162428128466" y="-62.3058129078014" z="500"/>
+                    <rect x="0" y="0" width="191" height="35"/>
+                    <relativesize width="0.107308302145571" height="0.272971741965272" centerx="0.0819120068953361" centery="0.353329842613841" posx="0.0282578558225508" posy="0.216843971631206" leftx="0.0282578558225508" lefty="0.489815713596477" rightx="0.135566157968121" righty="0.489815713596477" fixaspect="false" lockpostodata="false"/>
+                    <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                    <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                        <brush color="#000000" style="1"/>
+                    </pen>
+                    <brush color="#ffffff" style="1"/>
+                </legend>
+                <cartesianrender name="Cartesian Plot" type="1">
+                    <relation tag="Column 2 vs INDEX (C8)"/>
+                </cartesianrender>
+                <plotaxis id="xaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="0" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="true" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-1"/>
+                </plotaxis>
+                <plotaxis id="yaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="0" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="false" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-3381760"/>
+                </plotaxis>
+                <plotlabel id="leftlabel" visible="true" overridetext="Column 2" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="rightlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="toplabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="bottomlabel" visible="true" overridetext="INDEX" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="numberlabel" visible="true" overridetext="" autolabel="false" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5" fontcolor="#000000" fontuseglobal="true"/>
+                <projectionrect x="0" y="-2.70835e-05" width="1023" height="512.0000270835"/>
+            </plot>
+            <plot tiedxzoom="true" tiedyzoom="true" leftlabelvisible="true" bottomlabelvisible="true" rightlabelvisible="true" toplabelvisible="true" globalfont="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" globalfontscale="10.5319726474218" globalfontcolor="#000000" showlegend="true" hidebottomaxislabel="false" hidetopaxislabel="false" hideleftaxislabel="false" hiderightaxislabel="false" initialPlotNum="4" name="Plot">
+                <position x="3" y="523.5" z="500"/>
+                <rect x="0" y="0" width="1907" height="260.25"/>
+                <relativesize width="0.996342737722048" height="0.248330152671756" centerx="0.499738766980146" centery="0.623687977099237" posx="0.00156739811912226" posy="0.499522900763359" leftx="0.00156739811912226" lefty="0.747853053435115" rightx="0.99791013584117" righty="0.747853053435115" fixaspect="false" lockpostodata="false"/>
+                <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                <pen style="1" width="1" miterlimit="2" cap="16" joinStyle="64">
+                    <brush color="#000000" style="1"/>
+                </pen>
+                <brush color="#ffffff" style="1"/>
+                <legend auto="true" title="" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="6.31918358845309" color="#000000" verticaldisplay="false" name="Legend">
+                    <position x="161.33773435437" y="61.4102511244378" z="500"/>
+                    <rect x="0" y="0" width="191" height="35"/>
+                    <relativesize width="0.107303370786517" height="0.272904483430799" centerx="0.0830549069406574" centery="0.303393770950782" posx="0.029403221547399" posy="0.166941529235382" leftx="0.029403221547399" lefty="0.439846012666182" rightx="0.136706592333916" righty="0.439846012666182" fixaspect="false" lockpostodata="false"/>
+                    <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                    <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                        <brush color="#000000" style="1"/>
+                    </pen>
+                    <brush color="#ffffff" style="1"/>
+                </legend>
+                <cartesianrender name="Cartesian Plot" type="1">
+                    <relation tag="Column 2 vs Column 1 (C5)"/>
+                </cartesianrender>
+                <plotaxis id="xaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="0" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="true" linecolor="#000000" linestyle="1" linewidth="1" curvemode="199304000"/>
+                </plotaxis>
+                <plotaxis id="yaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="2" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="false" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-1095059582"/>
+                </plotaxis>
+                <plotlabel id="leftlabel" visible="true" overridetext="Column 2" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="rightlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="toplabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="bottomlabel" visible="true" overridetext="Column 1" autolabel="true" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="numberlabel" visible="true" overridetext="" autolabel="false" font="MS Shell Dlg 2,12,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <projectionrect x="0" y="-2.70835e-05" width="127.875" height="512.0000270835"/>
+            </plot>
+            <plot tiedxzoom="true" tiedyzoom="true" leftlabelvisible="true" bottomlabelvisible="true" rightlabelvisible="true" toplabelvisible="true" globalfont="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" globalfontscale="10.5319726474218" globalfontcolor="#000000" showlegend="false" hidebottomaxislabel="false" hidetopaxislabel="false" hideleftaxislabel="false" hiderightaxislabel="false" initialPlotNum="2" name="Plot">
+                <position x="3" y="263.25" z="500"/>
+                <rect x="0" y="0" width="1907" height="260.25"/>
+                <relativesize width="0.996342737722048" height="0.248330152671756" centerx="0.499738766980146" centery="0.375357824427481" posx="0.00156739811912226" posy="0.251192748091603" leftx="0.00156739811912226" lefty="0.499522900763359" rightx="0.99791013584117" righty="0.499522900763359" fixaspect="false" lockpostodata="false"/>
+                <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                    <brush color="#000000" style="1"/>
+                </pen>
+                <brush color="#ffffff" style="1"/>
+                <legend auto="true" title="" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="12" color="#000000" verticaldisplay="false" name="Legend">
+                    <position x="156.70625" y="87.70625" z="500"/>
+                    <rect x="0" y="0" width="0" height="0"/>
+                    <relativesize width="0" height="0" centerx="0.0268012640449438" centery="0.371978557504873" posx="0.0268012640449438" posy="0.371978557504873" leftx="0.0268012640449438" lefty="0.371978557504873" rightx="0.0268012640449438" righty="0.371978557504873" fixaspect="false" lockpostodata="false"/>
+                    <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                    <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                        <brush color="#000000" style="1"/>
+                    </pen>
+                    <brush color="#ffffff" style="1"/>
+                </legend>
+                <cartesianrender name="Cartesian Plot" type="1">
+                    <relation tag="Column 1:psd vs Column 1:f (C2)"/>
+                </cartesianrender>
+                <plotaxis id="xaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="0" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="true" linecolor="#000000" linestyle="1" linewidth="1" curvemode="65336"/>
+                </plotaxis>
+                <plotaxis id="yaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="2" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="false" linecolor="#000000" linestyle="1" linewidth="1" curvemode="0"/>
+                </plotaxis>
+                <plotlabel id="leftlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="rightlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="toplabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="bottomlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="numberlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <projectionrect x="0" y="4.43391689356713e-13" width="128" height="0.816496670903415"/>
+            </plot>
+            <plot tiedxzoom="true" tiedyzoom="true" leftlabelvisible="true" bottomlabelvisible="true" rightlabelvisible="true" toplabelvisible="true" globalfont="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" globalfontscale="10.5319726474218" globalfontcolor="#000000" showlegend="true" hidebottomaxislabel="false" hidetopaxislabel="false" hideleftaxislabel="false" hiderightaxislabel="false" initialPlotNum="1" name="Plot">
+                <position x="3" y="3" z="500"/>
+                <rect x="0" y="0" width="1907" height="260.25"/>
+                <relativesize width="0.996342737722048" height="0.248330152671756" centerx="0.499738766980146" centery="0.127027671755725" posx="0.00156739811912226" posy="0.00286259541984733" leftx="0.00156739811912226" lefty="0.251192748091603" rightx="0.99791013584117" righty="0.251192748091603" fixaspect="false" lockpostodata="false"/>
+                <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                    <brush color="#000000" style="1"/>
+                </pen>
+                <brush color="#ffffff" style="1"/>
+                <legend auto="true" title="" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="6.31918358845309" color="#000000" verticaldisplay="false" name="Legend">
+                    <position x="177.647742276208" y="49.114799270073" z="500"/>
+                    <rect x="0" y="0" width="191" height="35"/>
+                    <relativesize width="0.107303370786517" height="0.272904483430799" centerx="0.0922178327394427" centery="0.207522801326105" posx="0.0385661473461843" posy="0.0710705596107056" leftx="0.0385661473461843" lefty="0.343975043041505" rightx="0.145869518132701" righty="0.343975043041505" fixaspect="false" lockpostodata="false"/>
+                    <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                    <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                        <brush color="#000000" style="1"/>
+                    </pen>
+                    <brush color="#ffffff" style="1"/>
+                </legend>
+                <cartesianrender name="Cartesian Plot" type="1">
+                    <relation tag="Column 1 vs INDEX (C1)"/>
+                </cartesianrender>
+                <plotaxis id="xaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="0" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="true" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-1"/>
+                </plotaxis>
+                <plotaxis id="yaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="2" timezonename="GMT" timezoneoffset="0">
+                    <plotmarkers xaxis="false" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-1"/>
+                </plotaxis>
+                <plotlabel id="leftlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="rightlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="toplabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="bottomlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="numberlabel" visible="true" overridetext="" autolabel="true" font="MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0" fontscale="10.5319726474218" fontcolor="#000000" fontuseglobal="true"/>
+                <projectionrect x="0" y="-4.64466" width="2047" height="9.28932"/>
+            </plot>
+        </view>
+    </graphics>
+</kst>
