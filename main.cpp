@@ -35,9 +35,9 @@ int main() {
     
     /* Simulation initialisation variables */
 
-    unsigned long sample_rate = 256; //Msps 
+    float sample_rate = 256; //Msps 
     //unsigned long captured_samples = 1 << 10; //1024 samples
-    unsigned long captured_samples = 1024; //1024 samples
+    float captured_samples = 1024; //1024 samples
 
     /* Simulation data vectors */
 
@@ -46,18 +46,26 @@ int main() {
     /* Simulation frequencies vector */
     
     float *f = (float*) malloc((sample_rate/2) * sizeof (float));
-    int nf = 1;
-    f[0] = 10 ; //10*sample_rate/captured_samples; //MHz
- //   f[1] =  4    ;
+    int nf = 6;
+    f[0] = 20; //10*sample_rate/captured_samples; //MHz
+    f[1] =  40;
+    f[2] =  60;
+    f[3] =  80;
+    f[4] =  100;
+    f[5] =  120;
     
     //f[0] = 1.5;
-    cout << "sample_rate/captured_samples " << (sample_rate/captured_samples) << endl;
+    cout << "sample_rate :" << sample_rate << endl;
+    cout << "captured_samples :" << captured_samples << endl;
+    float delta = 0.0; 
+    delta =  1/sample_rate;
+    cout <<"Delta:   "<< delta << endl;
+    cout << "sample_rate/captured_samples :" << (sample_rate/captured_samples) << endl;
     cout << "f[0] " << f[0] << endl;
     
     /* Generate Signals */
-    float delta = 0.0;
-    delta =  1/sample_rate;
-    cout <<"Delta:   "<< delta << endl;
+    
+
     tone(data, captured_samples, f, nf, delta);
     
 
