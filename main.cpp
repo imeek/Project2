@@ -61,7 +61,7 @@ int main() {
     tone(data, captured_samples, f, nf, delta);
     
 
-//test
+// this is a test
 
 
     /* Output simulation results to data file */
