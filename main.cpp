@@ -157,12 +157,12 @@ int main() {
     
     /* Generate Signals */
     int nf = 6;
-    f[0] = 20; 
-    f[1] =  40;
-    f[2] =  60;
-    f[3] =  80;
-    f[4] =  100;
-    f[5] =  120;    
+    f[0] = 20;          //point 161
+    f[1] =  40;         //point 321
+    f[2] =  60;         //point 481
+    f[3] =  80;         //point 641
+    f[4] =  100;        //point 801
+    f[5] =  120;        //point 961
     tone(data, captured_samples, f, nf, delta);
     tone(data2, captured_samples, f, nf, delta);
     
