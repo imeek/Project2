@@ -29,7 +29,7 @@ void tone(float *data, int ndata, float *f, int nf, float delta) {
 }
 
 int main() {
-
+//this is a test
     cout.precision(6);
     cout.setf(ios::fixed | ios::showpoint);
     
