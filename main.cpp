@@ -11,6 +11,8 @@
 using namespace std;
 
 #define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
+#define TAB '\t'
+
 double pi = 4 * atan((double) 1);
 
 
@@ -21,12 +23,9 @@ void tone(float *data, int ndata, float *f, int nf, float delta) {
         data[k] = 0;
         for (int i = 0; i < nf; i++) {
             data[k] += sin(2 * pi * f[i]*((k * delta)+ Tlast));
-            
         }
         Tlast += ndata*delta;
-      //  cout << "Tlast[" << k << "]  :" << Tlast << "   ndata: " << ndata << "   delta: " << delta << endl;
     }
-    cout << "Tlast :" << Tlast << endl;
 }
 
 void four1(float data[], unsigned long nn, int isign)
@@ -127,35 +126,19 @@ void realft(float data[], unsigned long n, int isign)
 }
 
 int main() {
-//this is a test
     cout.precision(6);
     cout.setf(ios::fixed | ios::showpoint);
     
     /* Simulation initialisation variables */
-
     unsigned long sample_rate = 256; //Msps 
     unsigned long captured_samples = 1 << 10; //1024 samples
-
-    /* Simulation data vectors */
-
-    float *data = (float*) malloc((captured_samples) * sizeof (float));
-    float *data2 = (float*) malloc((captured_samples) * sizeof (float));   
+    ofstream output("output.dat");
+    int tsegments = 5;
     
-    /* Simulation frequencies vector */
-    
+    /* Signal Parameters */
     float *f = (float*) malloc((sample_rate/2) * sizeof (float));
-
-    
-    //f[0] = 1.5;
-    cout << "sample_rate :" << sample_rate << endl;
-    cout << "captured_samples :" << captured_samples << endl;
-    float delta = 0.0; 
-    delta =  1/(float)sample_rate;
-    cout <<"Delta:   "<< delta << endl;
-    cout << "sample_rate/captured_samples :" << ((float)sample_rate/(float)captured_samples) << endl;
-
-    
-    /* Generate Signals */
+    float delta =  1/(float)sample_rate;  
+    /* Simulation frequencies vector */          
     int nf = 6;
     f[0] = 20;          //point 161
     f[1] =  40;         //point 321
@@ -163,43 +146,32 @@ int main() {
     f[3] =  80;         //point 641
     f[4] =  100;        //point 801
     f[5] =  120;        //point 961
-    tone(data, captured_samples, f, nf, delta);
-    tone(data2, captured_samples, f, nf, delta);
+    output <<f[0] <<TAB <<f[1] <<TAB <<f[2] <<TAB <<f[3] <<TAB <<f[4] <<TAB <<f[5] <<endl;
     
-    
-    /* FFT data vector */
-    
-    float *fftdata = (float*)malloc((captured_samples)*sizeof(float));
-    float *fftdata2 = (float*)malloc((captured_samples)*sizeof(float));
-    
-    for(unsigned long i=0; i<(captured_samples); i++)	{
-	fftdata[i]=data[i];
-        fftdata2[i]=data2[i];
+    for (int t=0 ;t<tsegments ;t++ ){
+        /* Simulation data vectors */
+        float *data = (float*) malloc((captured_samples) * sizeof (float));    
+        /* Generate Signals */
+        tone(data, captured_samples, f, nf, delta);
+        /* FFT data vector */
+        float *fftdata = (float*)malloc((captured_samples)*sizeof(float));        
+        for(unsigned long i=0; i<(captured_samples); i++){
+            fftdata[i]=data[i];
+        }
+        realft(fftdata-1, captured_samples, 1);
+         /* Output simulation results to data file */    
+        output << fftdata[161] << TAB; 
+        output << fftdata[321] << TAB;
+        output << fftdata[481] << TAB;
+        output << fftdata[641] << TAB;
+        output << fftdata[801] << TAB;
+        output << fftdata[961] << TAB;
+        output << endl;
+        /* delete data vectors */
+        free(data);
+        free(fftdata);
     }
-       
-    realft(fftdata-1, captured_samples, 1);
-    
-    
-        
-    /* Output simulation results to data file */
-
-    ofstream output("output.dat");
-    for (int i = 0; i < captured_samples; i++) {
-        output << data[i] << endl;
-    }
-    for (int i = 0; i < captured_samples; i++) {
-        output << data2[i] << endl;
-    }
-    output.close();
-    
-    ofstream fftoutput("fftdata.dat");
-    for (int i=0; i < captured_samples; i++)	{
-            fftoutput << 0.5*i*(float)sample_rate/(float)captured_samples << "     ";
-            fftoutput << fftdata[i] << endl;
-    }
-    fftoutput.close();
-
     /* End simulation */
-
+    output.close();
     return 0;
 }
