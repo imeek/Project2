@@ -13,19 +13,34 @@ using namespace std;
 #define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
 #define TAB '\t'
 
-double pi = 4 * atan((double) 1);
+double pi = 4.0 * atan((double) 1);
 
+void output_data (float fftdata[], unsigned long captured_samples, unsigned long sample_rate)	{
+	
+	ofstream outputfile("fft.dat");
+	unsigned long nn = captured_samples/2;
+
+	outputfile  <<   0.0 << " " << fftdata[0] << " " << 0.0 << " " << abs(fftdata[0]) << endl;
+	for (unsigned long i = 1; i < nn; i++)	{
+          outputfile << 0.5 * (double)i/(double)nn * sample_rate << TAB;
+	  outputfile <<  fftdata[2*i] << " " << fftdata[2*i + 1 ] << " ";
+	  outputfile << sqrt( fftdata[2*i]* fftdata[2*i] +  fftdata[2*i+1]* fftdata[2*i+1]) << endl;
+	}
+	outputfile << 0.5*sample_rate << " " << fftdata[1] << " " << 0.0 << " " << fabs(fftdata[1]) << endl;
+
+	outputfile.close();	
+}
 
 void tone(float *data, int ndata, float *f, int nf, float delta) {
 /* tone generation function */
-    static float Tlast = 0.0;
+    static double Tlast = 0.0;
     for (int k = 0; k < ndata; k++) {
         data[k] = 0;
         for (int i = 0; i < nf; i++) {
-            data[k] += sin(2 * pi * f[i]*((k * delta)+ Tlast));
-        }
-        Tlast += ndata*delta;
+            data[k] += sin(2 * M_PI * f[i]*(k * delta + Tlast));
+        }        
     }
+    Tlast += ndata*delta;
 }
 
 void four1(float data[], unsigned long nn, int isign)
@@ -128,26 +143,23 @@ void realft(float data[], unsigned long n, int isign)
 int main() {
     cout.precision(6);
     cout.setf(ios::fixed | ios::showpoint);
-    
     /* Simulation initialisation variables */
     unsigned long sample_rate = 256; //Msps 
     unsigned long captured_samples = 1 << 10; //1024 samples
     ofstream output("output.dat");
-    int tsegments = 5;
-    
+    int tsegments = 1000;
     /* Signal Parameters */
     float *f = (float*) malloc((sample_rate/2) * sizeof (float));
     float delta =  1/(float)sample_rate;  
     /* Simulation frequencies vector */          
-    int nf = 6;
-    f[0] = 20;          //point 161
-    f[1] =  40;         //point 321
+    int nf = 1;
+    f[0] = 20.1;          //point 161
+    f[1] =  40.0;         //point 321
     f[2] =  60;         //point 481
     f[3] =  80;         //point 641
     f[4] =  100;        //point 801
     f[5] =  120;        //point 961
-    output <<f[0] <<TAB <<f[1] <<TAB <<f[2] <<TAB <<f[3] <<TAB <<f[4] <<TAB <<f[5] <<endl;
-    
+    output << "#" << f[0] <<TAB <<f[1] <<TAB <<f[2] <<TAB <<f[3] <<TAB <<f[4] <<TAB <<f[5] <<endl;
     for (int t=0 ;t<tsegments ;t++ ){
         /* Simulation data vectors */
         float *data = (float*) malloc((captured_samples) * sizeof (float));    
@@ -158,14 +170,30 @@ int main() {
         for(unsigned long i=0; i<(captured_samples); i++){
             fftdata[i]=data[i];
         }
+       
+        /*Widow data*/
+	/*data[0] = 0.0;
+	for(int k = 1 ; k < captured_samples/2; k++) {
+		data[k] *= 2.0*(float)k/captured_samples;
+		data[captured_samples - k] *= 2.0*(float)k/captured_samples;
+	}
+        */ 
+        
         realft(fftdata-1, captured_samples, 1);
+        for(int k = 0.0; k< captured_samples; k++)fftdata[k] *= sqrt(2)/captured_samples;
+        //output_data(fftdata, captured_samples, sample_rate);
+        //exit(0);
          /* Output simulation results to data file */    
-        output << fftdata[161] << TAB; 
-        output << fftdata[321] << TAB;
-        output << fftdata[481] << TAB;
-        output << fftdata[641] << TAB;
-        output << fftdata[801] << TAB;
-        output << fftdata[961] << TAB;
+        for(int k = 0; k < nf; k++) {
+            int idx = (int)trunc(f[k]/sample_rate*captured_samples);
+            
+            output << fftdata[2*idx] << TAB; 
+            output << fftdata[2*idx+1] << TAB;
+            output << sqrt(fftdata[2*idx+1]*fftdata[2*idx+1]+fftdata[2*idx]*fftdata[2*idx]) << TAB;
+            output << atan2(fftdata[2*idx+1], fftdata[2*idx]) << TAB ;
+            
+        }
+
         output << endl;
         /* delete data vectors */
         free(data);
