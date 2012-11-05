@@ -216,8 +216,20 @@ int main() {
 
 	float *data    = (float*)malloc((Ksegments)*sizeof(float));
 	float *fftdata = (float*)malloc((Ksegments)*sizeof(float));
-        
-        
+     
+	   /* Simulation frequencies vector */          
+    int nf = 1;
+    f[0] = 20;          //point 161
+    f[1] =  40.0;         //point 321
+    f[2] =  60;         //point 481
+    f[3] =  80;         //point 641
+    f[4] =  100;        //point 801
+    f[5] =  120;        //point 961
+
+	 
+    // output << "#" << f[0] <<TAB <<f[1] <<TAB <<f[2] <<TAB <<f[3] <<TAB <<f[4] <<TAB <<f[5] <<endl;
+
+    
 	
 //	quantisation(data, captured_samples, getMax(data,captured_samples), depthMax(bits) );
 //	quantisation(fftdata, captured_samples, getMax(data,captured_samples), depthMax(bits) );
@@ -247,3 +259,52 @@ int main() {
 	free(fftdata);
 	return 0;
 }
+
+void output_data (float fftdata[], unsigned long captured_samples, unsigned long sample_rate)	{
+	
+	ofstream outputfile("fft.dat");
+	unsigned long nn = captured_samples/2;
+
+	outputfile  <<   0.0 << " " << fftdata[0] << " " << 0.0 << " " << abs(fftdata[0]) << endl;
+	for (unsigned long i = 1; i < nn; i++)	{
+          outputfile << 0.5 * (double)i/(double)nn * sample_rate << TAB;
+	  outputfile <<  fftdata[2*i] << " " << fftdata[2*i + 1 ] << " ";
+	  outputfile << sqrt( fftdata[2*i]* fftdata[2*i] +  fftdata[2*i+1]* fftdata[2*i+1]) << endl;
+	}
+	outputfile << 0.5*sample_rate << " " << fftdata[1] << " " << 0.0 << " " << fabs(fftdata[1]) << endl;
+
+	outputfile.close();	
+}
+
+void output_wave_in(float data[], unsigned long captured_samples, unsigned long sample_rate)	{
+
+    ofstream wavein("wavein.dat");
+    for (int n=0;n<captured_samples;n++)
+    {
+        wavein<< data[n] << endl; 
+    }
+    wavein.close();
+	
+}
+
+      //  output_data(fftdata, captured_samples, sample_rate);
+      //  exit(0);
+	  
+	                  /* Output simulation results to data file */
+
+                for(int k = 0; k < nf; k++) {
+                    int idx = (int)trunc(f[k]/sample_rate*captured_samples);
+                 // output << fftdata[2*idx] << TAB;
+                 // output << fftdata[2*idx+1] << TAB;
+                    output << sqrt(fftdata[2*idx+1]*fftdata[2*idx+1]+fftdata[2*idx]*fftdata[2*idx]) << TAB;
+                 // output << atan2(fftdata[2*idx+1], fftdata[2*idx]) << TAB ;
+
+                }
+
+                //output << endl;
+				
+				
+
+	  
+	  
+	  
