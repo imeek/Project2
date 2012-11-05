@@ -15,20 +15,53 @@ using namespace std;
 
 double pi = 4.0 * atan((double) 1);
 
-void output_data (float fftdata[], unsigned long captured_samples, unsigned long sample_rate)	{
-	
-	ofstream outputfile("fft.dat");
-	unsigned long nn = captured_samples/2;
+/* like abs() but for doubles. necessary because */
+/* abs() only accepts and returns ints */
+double flabs(float f)	{
+	return f * (f<0? -1: 1);
+}
 
-	outputfile  <<   0.0 << " " << fftdata[0] << " " << 0.0 << " " << abs(fftdata[0]) << endl;
-	for (unsigned long i = 1; i < nn; i++)	{
-          outputfile << 0.5 * (double)i/(double)nn * sample_rate << TAB;
-	  outputfile <<  fftdata[2*i] << " " << fftdata[2*i + 1 ] << " ";
-	  outputfile << sqrt( fftdata[2*i]* fftdata[2*i] +  fftdata[2*i+1]* fftdata[2*i+1]) << endl;
+/* returns the maximum value at a given bit-depth */
+int depthMax(int bits)	{
+	return (int)pow(2.0, bits-1);
+}
+
+/* returns maximum value in an array of doubles */
+double getMax(float data[], long captured_samples)	{
+    double c, m;
+    int i;
+    for (i = 0, m = 0; i < captured_samples; ++i) {
+            c = flabs(data[i]);
+            if (c > m)
+                    m = c;
+            }
+    return m;
+}
+
+/* www.strchr.com/standard_deviation_in_one_pass  */
+/* - this version takes two */
+double std_dev1(double a[], int n) {
+    if(n == 0)
+        return 0.0;
+    double sum = 0;
+    for(int i = 0; i < n; ++i)
+       sum += a[i];
+    double mean = sum / n;
+    double sq_diff_sum = 0;
+    for(int i = 0; i < n; ++i) {
+       double diff = a[i] - mean;
+       sq_diff_sum += diff * diff;
+    }
+    double variance = sq_diff_sum / n;
+    return sqrt(variance);
+}
+
+void quantisation(float data[], long captured_samples,int dataMax, int depthMax  )	{
+
+	for(int i=0; i<captured_samples; i++)	{			
+			data[i]= floor(depthMax*(data[i]/dataMax));	
 	}
-	outputfile << 0.5*sample_rate << " " << fftdata[1] << " " << 0.0 << " " << fabs(fftdata[1]) << endl;
 
-	outputfile.close();	
 }
 
 void tone(float *data, int ndata, float *f, int nf, float delta) {
@@ -143,63 +176,100 @@ void realft(float data[], unsigned long n, int isign)
 int main() {
     cout.precision(6);
     cout.setf(ios::fixed | ios::showpoint);
+    
     /* Simulation initialisation variables */
-    unsigned long sample_rate = 256; //Msps 
+    unsigned long sample_rate = 150; //Msps 
     unsigned long captured_samples = 1 << 10; //1024 samples
+    
+    // number of bits data is sampled
+    int bits = 14;
     ofstream output("output.dat");
     int tsegments = 1000;
+    
+    /* Noise parameters */
+    const float Po = 1E-3; // Watts
+    const float Vpp = 4; // Volts
+    const float Vmax = 2; // Volts
+    const float Rt = 50; // Ohms
+    float Pfs = (Vmax*Vmax)/(2*Rt); // full scale Power 
+    float Noise_dBm = 0.0;
+    float ADC_squared = 0.0; //to replace
+    
+    Noise_dBm = -260.0*log10(2.0)+10*log10(Pfs/Po);
+    cout << "Noise_dBm :" << Noise_dBm << endl;
+    Noise_dBm +=log10(ADC_squared);       //to replace  
+            
     /* Signal Parameters */
     float *f = (float*) malloc((sample_rate/2) * sizeof (float));
     float delta =  1/(float)sample_rate;  
-    /* Simulation frequencies vector */          
-    int nf = 1;
-    f[0] = 20.1;          //point 161
-    f[1] =  40.0;         //point 321
-    f[2] =  60;         //point 481
-    f[3] =  80;         //point 641
-    f[4] =  100;        //point 801
-    f[5] =  120;        //point 961
-    output << "#" << f[0] <<TAB <<f[1] <<TAB <<f[2] <<TAB <<f[3] <<TAB <<f[4] <<TAB <<f[5] <<endl;
-    for (int t=0 ;t<tsegments ;t++ ){
-        /* Simulation data vectors */
-        float *data = (float*) malloc((captured_samples) * sizeof (float));    
-        /* Generate Signals */
-        tone(data, captured_samples, f, nf, delta);
-        /* FFT data vector */
-        float *fftdata = (float*)malloc((captured_samples)*sizeof(float));        
-        for(unsigned long i=0; i<(captured_samples); i++){
-            fftdata[i]=data[i];
-        }
-       
-        /*Widow data*/
-	/*data[0] = 0.0;
-	for(int k = 1 ; k < captured_samples/2; k++) {
-		data[k] *= 2.0*(float)k/captured_samples;
-		data[captured_samples - k] *= 2.0*(float)k/captured_samples;
-	}
-        */ 
-        
-        realft(fftdata-1, captured_samples, 1);
-        for(int k = 0.0; k< captured_samples; k++)fftdata[k] *= sqrt(2)/captured_samples;
-        //output_data(fftdata, captured_samples, sample_rate);
-        //exit(0);
-         /* Output simulation results to data file */    
-        for(int k = 0; k < nf; k++) {
-            int idx = (int)trunc(f[k]/sample_rate*captured_samples);
-            
-            output << fftdata[2*idx] << TAB; 
-            output << fftdata[2*idx+1] << TAB;
-            output << sqrt(fftdata[2*idx+1]*fftdata[2*idx+1]+fftdata[2*idx]*fftdata[2*idx]) << TAB;
-            output << atan2(fftdata[2*idx+1], fftdata[2*idx]) << TAB ;
-            
-        }
+    
 
-        output << endl;
-        /* delete data vectors */
-        free(data);
-        free(fftdata);
+    double N_dBm[750];
+        
+    for (int j=0;j<750;j++)
+    {
+    /*                      */
+        
+            /* Simulation frequency vector */          
+            int nf = 1;
+            f[0] = f[0]+0.1; 
+        
+            for (int t=0 ;t<tsegments ;t++ ){
+
+                /* Simulation data vectors */
+                float *data = (float*) malloc((captured_samples) * sizeof (float));    
+
+                /* Generate Signal */
+                tone(data, captured_samples, f, nf, delta);
+
+                /* Quantise Data*/
+                quantisation(data, captured_samples, getMax(data,captured_samples), depthMax(bits) );
+
+                /* FFT data vector */
+                float *fftdata = (float*)malloc((captured_samples)*sizeof(float));        
+                for(unsigned long i=0; i<(captured_samples); i++){
+                    fftdata[i]=data[i];
+                }
+
+                /*Window data*/
+                fftdata[0] = 0.0;
+                for(int k = 1 ; k < captured_samples/2; k++) {
+                        fftdata[k] *= 2.0*(float)k/captured_samples;
+                        fftdata[captured_samples - k] *= 2.0*(float)k/captured_samples;
+                }
+
+                /* FFT data */
+                realft(fftdata-1, captured_samples, 1);
+
+                /* Normalise FFT data */
+                for(int k = 0.0; k< captured_samples; k++)fftdata[k] *= sqrt(2.0)/captured_samples; 
+
+                /* Output simulation results to data file */    
+
+                for(int k = 0; k < nf; k++) {
+                    int idx = (int)trunc(f[k]/sample_rate*captured_samples); 
+                 //   output << fftdata[2*idx] << TAB; 
+                 //   output << fftdata[2*idx+1] << TAB;
+                    output << sqrt(fftdata[2*idx+1]*fftdata[2*idx+1]+fftdata[2*idx]*fftdata[2*idx]) << TAB;
+                 //   output << atan2(fftdata[2*idx+1], fftdata[2*idx]) << TAB ;
+
+                }
+
+                //output << endl;
+
+                /* delete data vectors */
+                free(data);
+                free(fftdata);
+
+                }   
+        
+        
+        /*                      */
     }
+ 
+   
     /* End simulation */
     output.close();
     return 0;
 }
+
