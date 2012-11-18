@@ -182,7 +182,7 @@ int main() {
     
     // number of bits data is sampled
     int bits = 14;
-    ofstream output("output.dat");
+   
     const int tsegments = 1000;
     
     /* Noise parameters */
@@ -196,89 +196,93 @@ int main() {
     
     Noise_dBm = -260.0*log10(2.0)+10*log10(Pfs/Po);
     cout << "Noise_dBm :" << Noise_dBm << endl;
-    Noise_dBm +=log10(ADC_squared); //to replace
+  // Noise_dBm +=log10(ADC_squared); //to replace
             
     /* Signal Parameters */
     float *f = (float*) malloc((sample_rate/2) * sizeof (float));
     float delta = 1/(float)sample_rate;
-    
-
-    double N_dBm[750];
+    double freq = 0.0;
+    int nf = 750;
+    double N_dBm[6][750];
     for (int l=0;l<750;l++)
     {
-        N_dBm[l] = 0.0;
+        N_dBm[0][l] = 0.0;
+        N_dBm[1][l] = 0.0;
+        N_dBm[2][l] = 0.0;
+        N_dBm[3][l] = 0.0;
+        N_dBm[4][l] = 0.0;
+        N_dBm[5][l] = 0.0;       
     }
     
+  //  double fft_length; 
     double Tseg[tsegments];
- 
-    double freq;
-    /* Simulation frequency vector */
-    int nf = 1;
-    f[0] = 0.0;
-    freq = f[0];
-    
-    for (int j=0;j<3;j++)
+    for (int n=0 ;n<6 ;n++ )
     {
-        // f[0] = f[0] +0.1; 
-        freq = freq + 0.1;
+      //  fft_length = pow ( 2.0,(10+n) );
+        captured_samples = 1 << (10+n);
         
-        for (int t=0 ;t<tsegments ;t++ )
+        /* Simulation frequency */
+        freq = 0.0;
+        
+        for (int j=0 ;j<nf ;j++ )
         {
-            /* Simulation data vectors */
-            float *data = (float*) malloc((captured_samples) * sizeof (float));
-
-            /* Generate Signal */
-            tone(data, captured_samples, freq, delta);
-
-            /* Quantise Data*/
-            quantisation(data, captured_samples, getMax(data,captured_samples), depthMax(bits) );
-
-            /* FFT data vector */
-            float *fftdata = (float*)malloc((captured_samples)*sizeof(float));
-            for(unsigned long i=0; i<(captured_samples); i++)
+            freq = freq + 0.1;
+            for (int t=0 ;t<tsegments ;t++ )
             {
-                fftdata[i]=data[i];
-            }
+                /* Simulation data vectors */
+                float *data = (float*) malloc((captured_samples) * sizeof (float));
 
-            /*Window data*/
-            fftdata[0] = 0.0;
-            for(int k = 1 ; k < captured_samples/2; k++) 
-            {
-                fftdata[k] *= 2.0*(float)k/captured_samples;
-                fftdata[captured_samples - k] *= 2.0*(float)k/captured_samples;
-            }
+                /* Generate Signal */
+                tone(data, captured_samples, freq, delta);
 
-            /* FFT data */
-            realft(fftdata-1, captured_samples, 1);
+                /* Quantise Data*/
+                quantisation(data, captured_samples, getMax(data,captured_samples), depthMax(bits) );
 
-            /* Normalise FFT data */
-            for(int k = 0.0; k< captured_samples; k++)fftdata[k] *= sqrt(2.0)/captured_samples;
+                /*Window data*/
+                /*
+                data[0] = 0.0;
+                for(int k = 1 ; k < captured_samples/2; k++) 
+                {
+                    data[k] *= 2.0*(float)k/captured_samples;
+                    data[captured_samples - k] *= 2.0*(float)k/captured_samples;
+                }
+                */
+                
+                /* FFT data */
+                realft(data-1, captured_samples, 1);
 
-            /* Output simulation results to data file */
-            int idx = (int)trunc(freq/sample_rate*captured_samples);
-            Tseg[t] = sqrt(fftdata[2*idx+1]*fftdata[2*idx+1]+fftdata[2*idx]*fftdata[2*idx]);
+                /* Normalise FFT data */
+                for(int k = 0.0; k< captured_samples; k++)data[k] *= sqrt(2.0)/captured_samples;
+
+                /* Output simulation results to data file */
+                int idx = (int)trunc(freq/sample_rate*captured_samples);
+                Tseg[t] = sqrt(data[2*idx+1]*data[2*idx+1]+data[2*idx]*data[2*idx]);
+
+                /* delete data vectors */
+                free(data);
+
+              }
+            // cout << "  " << TAB << <<endl; 
+            // cout << "  " << TAB << <<endl;
             
-            /* delete data vectors */
-            free(data);
-            free(fftdata);
+             N_dBm[n][j] = log10( std_dev1(Tseg, tsegments)) + Noise_dBm;
 
-          }
-            
-          N_dBm[j] = std_dev1(Tseg, tsegments);
-        
-        /* */
-    }
-    
-    freq = f[0];
+            /* */
+        }
+    }    
+   // cout << "  freq" << TAB <<freq <<endl;  
+    freq = 0.0;
     ofstream dBm_out("dBm_out.dat");
     for (int l=0;l<750;l++)
     {
         freq = freq + 0.1;
-        dBm_out << freq << TAB << N_dBm[l] << endl;
+        dBm_out << freq << TAB << N_dBm[0][l] << TAB << N_dBm[1][l] << TAB << N_dBm[2][l] << TAB << N_dBm[3][l] << TAB << N_dBm[4][l] << TAB;
+        dBm_out << N_dBm[5][l] << endl;
     }
+    dBm_out.close();
     
     
-    /* End simulation */
-    output.close();
+    
+    
     return 0;
 }
