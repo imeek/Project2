@@ -183,7 +183,7 @@ int main() {
     // number of bits data is sampled
     int bits = 14;
    
-    const int tsegments = 1000;
+    const int tsegments = 10;
     
     /* Noise parameters */
     const float Po = 1E-3; // Watts
@@ -199,12 +199,12 @@ int main() {
   // Noise_dBm +=log10(ADC_squared); //to replace
             
     /* Signal Parameters */
-    float *f = (float*) malloc((sample_rate/2) * sizeof (float));
+    //float *f = (float*) malloc((sample_rate/2) * sizeof (float));
     float delta = 1/(float)sample_rate;
     double freq = 0.0;
-    int nf = 750;
-    double N_dBm[6][750];
-    for (int l=0;l<750;l++)
+    const int nf = 750;
+    double N_dBm[6][nf];
+    for (int l=0;l<nf;l++)
     {
         N_dBm[0][l] = 0.0;
         N_dBm[1][l] = 0.0;
@@ -227,6 +227,7 @@ int main() {
         for (int j=0 ;j<nf ;j++ )
         {
             freq = freq + 0.1;
+          //  cout<< " freq :"<<freq<<endl;
             for (int t=0 ;t<tsegments ;t++ )
             {
                 /* Simulation data vectors */
@@ -239,14 +240,14 @@ int main() {
                 quantisation(data, captured_samples, getMax(data,captured_samples), depthMax(bits) );
 
                 /*Window data*/
-                /*
+             
                 data[0] = 0.0;
                 for(int k = 1 ; k < captured_samples/2; k++) 
                 {
                     data[k] *= 2.0*(float)k/captured_samples;
                     data[captured_samples - k] *= 2.0*(float)k/captured_samples;
                 }
-                */
+                
                 
                 /* FFT data */
                 realft(data-1, captured_samples, 1);
@@ -254,7 +255,7 @@ int main() {
                 /* Normalise FFT data */
                 for(int k = 0.0; k< captured_samples; k++)data[k] *= sqrt(2.0)/captured_samples;
 
-                /* Output simulation results to data file */
+                /* Output simulation results to data array */
                 int idx = (int)trunc(freq/sample_rate*captured_samples);
                 Tseg[t] = sqrt(data[2*idx+1]*data[2*idx+1]+data[2*idx]*data[2*idx]);
 
